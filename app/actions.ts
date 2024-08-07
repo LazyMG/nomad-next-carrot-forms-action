@@ -3,6 +3,9 @@
 import { userData } from "@/lib/localDB";
 import { z } from "zod";
 
+const emailPattern = new RegExp("@zod\\.com$");
+const numberPattern = new RegExp("\\d+");
+
 const checkEmailExists = (email: string) => {
   const exists = userData.email === email;
   return exists;
@@ -18,14 +21,21 @@ const formSchema = z.object({
     .string({ message: "You should wrtie down your email." })
     .email()
     .toLowerCase()
+    .regex(emailPattern, { message: "Only @zod.com emails are allowed." })
     .refine(checkEmailExists, "An account with this email does not exitst."),
   username: z
     .string({ message: "You should wrtie down your username." })
+    .min(5, { message: "Username should be at least 5 characters long." })
     .refine(
       checkUsernameExists,
       "An account with this username does not exitst."
     ),
-  password: z.string({ message: "You should wrtie down your password." }),
+  password: z
+    .string({ message: "You should wrtie down your password." })
+    .min(10, { message: "Password should be at least 10 characters long." })
+    .regex(numberPattern, {
+      message: "Password should contain at least one number (0123456789).",
+    }),
 });
 
 export const login = async (prevState: any, formData: FormData) => {

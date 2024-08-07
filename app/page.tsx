@@ -42,6 +42,7 @@ export default function Home() {
             type="text"
             placeholder="Username"
             errors={state?.fieldErrors.username}
+            min={5}
             icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -65,6 +66,7 @@ export default function Home() {
             placeholder="Password"
             required
             errors={state?.fieldErrors.password}
+            min={10}
             icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"

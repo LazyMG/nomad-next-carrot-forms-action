@@ -1,5 +1,5 @@
 export const userData = {
-  email: "cbfmark@nomad.com",
-  username: "maga",
-  password: "12345",
+  email: "cbfmark@zod.com",
+  username: "magalee",
+  password: "maga0123456",
 };

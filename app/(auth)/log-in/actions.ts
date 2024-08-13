@@ -96,7 +96,7 @@ export const login = async (prevState: any, formData: FormData) => {
 
     if (ok) {
       await sessionLogin(user.id);
-      redirect("/profile");
+      redirect("/");
     } else {
       return {
         fieldErrors: {

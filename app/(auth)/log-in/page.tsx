@@ -10,6 +10,7 @@ import {
   USERNAME_MAX_LENGTH,
   USERNAME_MIN_LENGTH,
 } from "@/lib/constant";
+import Link from "next/link";
 
 const Login = () => {
   const [state, dispatch] = useFormState(login, null);
@@ -94,6 +95,10 @@ const Login = () => {
           />
           <FormButton text="Log in" />
         </form>
+        <div>
+          계정이 없다면 &rarr;
+          <Link href={"/create-account"}>Create Account</Link>
+        </div>
       </div>
     </div>
   );

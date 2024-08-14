@@ -3,7 +3,7 @@ import React, { InputHTMLAttributes } from "react";
 interface FormInputProps {
   errors?: string[];
   name: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
 }
 
 const FormInput = ({
@@ -16,7 +16,7 @@ const FormInput = ({
     <div className="relative flex flex-col gap-2">
       <input
         name={name}
-        className={`pl-10 text-lg bg-transparent rounded-2xl w-full h-12 focus:outline-gray-300 ring-2 focus:ring-offset-2 transition ring-neutral-200 focus:ring-gray-400 border-none placeholder:text-neutral-400 ${
+        className={`pl-10 text-lg bg-transparent rounded-2xl w-full h-12  focus:outline-gray-300 ring-2 focus:ring-offset-2 transition ring-neutral-200 focus:ring-gray-400 border-none placeholder:text-neutral-400 ${
           errors.length !== 0
             ? "ring-red-200 focus:ring-red-400 focus:outline-red-300"
             : ""

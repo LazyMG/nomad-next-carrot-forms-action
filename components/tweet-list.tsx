@@ -1,20 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import Pagination from "./pagination";
 import { InitialTweets } from "@/app/(home)/page";
 import { useState } from "react";
 import { getMoreTweets } from "@/app/(home)/actions";
 
 interface TweetListProps {
-  initialTweets: InitialTweets;
-  totalCount: number;
+  tweets: InitialTweets;
+  setTweets: React.Dispatch<React.SetStateAction<InitialTweets>>;
 }
 
-const TweetList = ({ initialTweets, totalCount }: TweetListProps) => {
-  const [tweets, setTweets] = useState(initialTweets);
-  const length = Math.ceil(totalCount / 5);
-
+const TweetList = ({ tweets, setTweets }: TweetListProps) => {
   const prevPage = async () => {
     const cusorId = tweets[0]?.id;
     const newTweets = await getMoreTweets(cusorId, 5, true);

@@ -4,7 +4,8 @@ import { useFormState } from "react-dom";
 import FormButton from "./form-button";
 import { uploadTweet } from "./tweet-actions";
 import { InitialTweets } from "@/app/(home)/page";
-import { TextareaHTMLAttributes, useState } from "react";
+import { useState } from "react";
+import { TEXTAREA_MAX_LENGTH } from "@/lib/constant";
 
 interface AddTweetProps {
   setTweets: React.Dispatch<React.SetStateAction<InitialTweets>>;
@@ -41,8 +42,9 @@ const AddTweet = ({ setTweets }: AddTweetProps) => {
               ? "ring-red-200 focus:ring-red-400 focus:outline-red-300"
               : ""
           }`}
-          placeholder="What's going on? (MAX 50 characters)"
+          placeholder={`What's going on? (MAX  ${TEXTAREA_MAX_LENGTH} characters)`}
           rows={5}
+          maxLength={TEXTAREA_MAX_LENGTH}
         />
         {state?.formErrors?.map((error, index) => (
           <span key={index} className="text-red-500 font-medium">

@@ -2,6 +2,7 @@
 
 import { getInitialTweets } from "@/app/(home)/actions";
 import { InitialTweets } from "@/app/(home)/page";
+import { TEXTAREA_MAX_LENGTH } from "@/lib/constant";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
@@ -12,7 +13,7 @@ const tweetSchema = z
     required_error: "You should write down tweet!",
   })
   .min(1, { message: "You should write down tweet!" })
-  .max(50, { message: "Too long!" });
+  .max(TEXTAREA_MAX_LENGTH, { message: "Too long!" });
 
 interface UploadTweetSuccess {
   success: true;

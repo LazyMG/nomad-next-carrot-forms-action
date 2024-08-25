@@ -31,7 +31,9 @@ const SearchContent = () => {
       </div>
       <div className="h-0.5 bg-neutral-100" />
       {isLoading ? (
-        <div>Loading...</div>
+        <div className="flex justify-center text-4xl font-semibold pt-32">
+          Catching what you want!
+        </div>
       ) : (
         <div className="flex flex-col gap-4">
           {tweets?.map((tweet) => (

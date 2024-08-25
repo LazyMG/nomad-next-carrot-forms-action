@@ -5,13 +5,20 @@ import Link from "next/link";
 import React from "react";
 import SearchForm from "./search-form";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 const NavHeader = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const isBack =
     pathname.substring(1).split("/")[0] === "tweets" ||
     pathname.substring(1).split("/")[0] === "users";
+
+  const clickBackButton = () => {
+    router.back();
+  };
+
   return (
     <div
       className="fixed flex items-center top-0 w-full mx-auto max-w-screen-sm h-14 z-10 bg-white px-5"
@@ -23,9 +30,9 @@ const NavHeader = () => {
         {pathname === "/" ? (
           <SearchForm />
         ) : (
-          <Link href="/">
+          <span className="cursor-pointer" onClick={clickBackButton}>
             <ArrowLeftIcon className="size-6" />
-          </Link>
+          </span>
         )}
         <div className="text-2xl font-semibold">Tweets!</div>
         <Link href="/profile">

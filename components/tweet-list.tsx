@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { InitialTweets } from "@/app/(home)/page";
 import { getMoreTweets } from "@/app/(home)/actions";
 import Tweet from "./tweet";
@@ -30,28 +29,37 @@ const TweetList = ({ tweets, setTweets }: TweetListProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-4 relative ">
+    <div className="flex flex-col gap-4 relative pt-8">
       <div className="flex flex-col gap-4 px-12">
-        {tweets.map((tweet) => (
-          <Tweet
-            tweet={tweet.tweet}
-            tweetId={tweet.id}
-            tweetUser={tweet.user.username}
-            tweetDate={tweet.created_at}
-            key={tweet.id}
-          />
-        ))}
+        {tweets?.length !== 0 ? (
+          tweets.map((tweet) => (
+            <Tweet
+              tweet={tweet.tweet}
+              tweetId={tweet.id}
+              tweetUser={tweet.user.username}
+              tweetDate={tweet.created_at}
+              key={tweet.id}
+            />
+          ))
+        ) : (
+          <div className="flex flex-col pt-28 gap-2 items-center text-4xl font-semibold">
+            <span>No Tweets.</span>
+            <span>Please Add New Tweet!</span>
+          </div>
+        )}
       </div>
-      <div className="absolute w-full top-1/2 transform -translate-y-1/2">
-        <div className="flex justify-between items-center">
-          <span onClick={prevPage} className="cursor-pointer">
-            <ArrowLongLeftIcon className="size-9" />
-          </span>
-          <span onClick={nextPage} className="cursor-pointer">
-            <ArrowLongRightIcon className="size-9" />
-          </span>
+      {tweets?.length !== 0 && (
+        <div className="absolute w-full top-0">
+          <div className="flex justify-between items-center">
+            <span onClick={prevPage} className="cursor-pointer">
+              <ArrowLongLeftIcon className="size-9" />
+            </span>
+            <span onClick={nextPage} className="cursor-pointer">
+              <ArrowLongRightIcon className="size-9" />
+            </span>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

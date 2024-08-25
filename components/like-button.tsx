@@ -34,7 +34,7 @@ const LikeButton = ({ isLiked, likeCount, tweetId }: LikeButtonProps) => {
   return (
     <form action={onClick}>
       <button
-        className={`flex items-center gap-2   text-sm border border-green-800 rounded-full p-2 transition-colors shadow-sm  ${
+        className={`flex items-center gap-2  text-sm border border-green-800 rounded-full p-2 transition-colors shadow-sm  ${
           state.isLiked
             ? "bg-green-800 text-white border-green-700 hover:bg-white hover:text-green-800"
             : "bg-white hover:bg-green-800 hover:text-white"

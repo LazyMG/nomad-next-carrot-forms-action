@@ -5,6 +5,7 @@ import getSession from "@/lib/session";
 import { notFound } from "next/navigation";
 import { unstable_cache as nextCache } from "next/cache";
 import Link from "next/link";
+import DeleteButton from "@/components/delete-button";
 
 const getTweet = async (id: number) => {
   const tweet = await db.tweet.findUnique({
@@ -92,6 +93,7 @@ const TweetDetail = async ({ params }: { params: { id: string } }) => {
   const tweet = await getCachedTweet(tweetId);
   const { likeCount, isLiked } = await getCachedLikeStatus(tweetId);
   const responses = await getCachedResponse(tweetId);
+  const session = await getSession();
 
   return (
     <div className="flex flex-col gap-5">
@@ -109,11 +111,17 @@ const TweetDetail = async ({ params }: { params: { id: string } }) => {
         <div className="flex flex-col gap-3">
           <div className="text-2xl">{tweet?.tweet}</div>
           <div className="flex justify-between items-end">
-            <LikeButton
-              isLiked={isLiked}
-              likeCount={likeCount}
-              tweetId={tweetId}
-            />
+            <div className="flex gap-2">
+              <LikeButton
+                isLiked={isLiked}
+                likeCount={likeCount}
+                tweetId={tweetId}
+              />
+              {session?.id === tweet?.userId && (
+                <DeleteButton tweetId={tweetId} />
+              )}
+            </div>
+
             <span className="text-xs text-black">
               {new Date(`${tweet?.created_at}`).toLocaleDateString() +
                 " " +

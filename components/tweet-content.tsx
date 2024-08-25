@@ -95,7 +95,7 @@ const TweetContent = ({
             <div className="flex justify-between items-end">
               <span className="text-lg">{response.payload}</span>
               <Link href={`/users/${response.userId}`}>
-                <span className="text-md text-neutral-100">
+                <span className="text-md hover:text-green-600">
                   {response.user.username}
                 </span>
               </Link>

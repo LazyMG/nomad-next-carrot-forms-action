@@ -161,17 +161,21 @@ export const editProfile = async (
   if (!result.success) {
     return result.error.flatten();
   } else {
-    //db 업데이트
+    //현재 password가 달라졌는지
+    console.log("바꾸기 전", result.data.password, currentUser.password);
     const ok = await bcrypt.compare(
       result.data.password,
       currentUser.password ?? "xxxx"
     );
     let hashedPassword;
     if (ok) {
+      //이전과 같음
       hashedPassword = result.data.password;
     } else {
+      //달라졌음
       hashedPassword = await bcrypt.hash(result.data.password, 12);
     }
+    console.log("확인 후", hashedPassword);
 
     const user = await db.user.update({
       where: {
@@ -185,8 +189,10 @@ export const editProfile = async (
       },
       select: {
         id: true,
+        password: true,
       },
     });
+
     revalidatePath(`/users/${user.id}/edit`);
     redirect("/profile");
   }

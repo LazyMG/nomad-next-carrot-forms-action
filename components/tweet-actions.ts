@@ -5,6 +5,7 @@ import { InitialTweets } from "@/app/(home)/page";
 import { TEXTAREA_MAX_LENGTH } from "@/lib/constant";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
@@ -55,6 +56,7 @@ export const uploadTweet = async (
       },
     });
     const tweets = await getInitialTweets();
+    revalidatePath("/");
     return {
       success: true,
       tweets,

@@ -59,7 +59,6 @@ export const deleteTweet = async (tweetId: number) => {
         id: tweetId,
       },
     });
-
     revalidatePath("/");
   } catch (error) {
     console.log("Failed to delete tweet:", error);

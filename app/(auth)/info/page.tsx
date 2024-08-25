@@ -21,9 +21,7 @@ const Info = () => {
           <span className="text-lg">
             Tweet을 올리거나 전체 Tweet 목록을 보는 페이지
           </span>
-          <span className="text-lg">
-            Tweet이 6개 이상일 경우 화살표로 페이지 이동
-          </span>
+          <span className="text-lg">화살표로 페이지 이동</span>
         </li>
         <li className=" flex flex-col ">
           <span className="text-xl font-semibold">4. /tweets/[id]</span>

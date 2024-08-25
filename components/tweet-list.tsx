@@ -2,8 +2,12 @@
 
 import Link from "next/link";
 import { InitialTweets } from "@/app/(home)/page";
-import { useState } from "react";
 import { getMoreTweets } from "@/app/(home)/actions";
+import Tweet from "./tweet";
+import {
+  ArrowLongLeftIcon,
+  ArrowLongRightIcon,
+} from "@heroicons/react/24/solid";
 
 interface TweetListProps {
   tweets: InitialTweets;
@@ -26,33 +30,29 @@ const TweetList = ({ tweets, setTweets }: TweetListProps) => {
   };
 
   return (
-    <>
-      <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 relative ">
+      <div className="flex flex-col gap-4 px-12">
         {tweets.map((tweet) => (
-          <Link
-            href={`/tweets/${tweet.id}`}
+          <Tweet
+            tweet={tweet.tweet}
+            tweetId={tweet.id}
+            tweetUser={tweet.user.username}
+            tweetDate={tweet.created_at}
             key={tweet.id}
-            className="text-lg bg-gray-100 rounded-2xl max-h-32 p-3"
-          >
-            <div className="flex flex-col justify-between h-full">
-              <span className="text-xl">
-                {tweet.tweet.length >= 90
-                  ? tweet.tweet.slice(0, 86) + "..."
-                  : tweet.tweet}
-              </span>
-              <div className="flex justify-between text-sm text-neutral-500 mt-2">
-                <span>{tweet.created_at.toLocaleDateString()}</span>
-                <span>{tweet.user.username}</span>
-              </div>
-            </div>
-          </Link>
+          />
         ))}
       </div>
-      <div className="flex items-center gap-2 mx-auto cursor-pointer">
-        <span onClick={prevPage}>&larr;</span>
-        <span onClick={nextPage}>&rarr;</span>
+      <div className="absolute w-full top-1/2 transform -translate-y-1/2">
+        <div className="flex justify-between items-center">
+          <span onClick={prevPage} className="cursor-pointer">
+            <ArrowLongLeftIcon className="size-9" />
+          </span>
+          <span onClick={nextPage} className="cursor-pointer">
+            <ArrowLongRightIcon className="size-9" />
+          </span>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

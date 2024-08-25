@@ -3,7 +3,7 @@
 import { useOptimistic } from "react";
 import { HandThumbUpIcon } from "@heroicons/react/24/solid";
 import { HandThumbUpIcon as OutlineHandThumbUpIcon } from "@heroicons/react/24/outline";
-import { disLikeTweet, likeTweet } from "@/app/tweets/[id]/actions";
+import { disLikeTweet, likeTweet } from "@/app/(home)/tweets/[id]/actions";
 
 interface LikeButtonProps {
   isLiked: boolean;
@@ -34,10 +34,10 @@ const LikeButton = ({ isLiked, likeCount, tweetId }: LikeButtonProps) => {
   return (
     <form action={onClick}>
       <button
-        className={`flex items-center gap-2 text-neutral-400 text-sm border border-neutral-400 rounded-full p-2 transition-colors hover:text-white ${
+        className={`flex items-center gap-2   text-sm border border-green-800 rounded-full p-2 transition-colors shadow-sm  ${
           state.isLiked
-            ? "bg-green-700 text-white border-green-700"
-            : "hover:bg-neutral-400 "
+            ? "bg-green-800 text-white border-green-700 hover:bg-white hover:text-green-800"
+            : "bg-white hover:bg-green-800 hover:text-white"
         }`}
       >
         {state.isLiked ? (

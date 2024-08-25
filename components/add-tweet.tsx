@@ -37,7 +37,7 @@ const AddTweet = ({ setTweets }: AddTweetProps) => {
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) => {
             setTweetText(event.currentTarget.value);
           }}
-          className={`pl-5 py-2 text-lg bg-transparent rounded-2xl w-full focus:outline-gray-300 ring-2 focus:ring-offset-2 transition ring-neutral-200 focus:ring-gray-400 border-none placeholder:text-neutral-400 resize-none ${
+          className={`pl-5 py-2 text-lg shadow-md rounded-2xl w-full focus:outline-gray-300 ring-2 focus:ring-offset-2 transition ring-neutral-200 focus:ring-gray-400 border-none placeholder:text-neutral-400 resize-none ${
             state?.formErrors && state?.formErrors?.length > 0
               ? "ring-red-200 focus:ring-red-400 focus:outline-red-300"
               : ""

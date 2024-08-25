@@ -9,3 +9,13 @@ export interface TweetResponse {
     username: string;
   };
 }
+export interface Tweet {
+  user: {
+    username: string;
+  };
+  id: number;
+  tweet: string;
+  created_at: Date;
+  updated_at: Date;
+  userId: number;
+}

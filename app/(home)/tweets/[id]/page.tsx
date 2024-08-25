@@ -1,10 +1,10 @@
-import AddResponse from "@/components/add-response";
 import LikeButton from "@/components/like-button";
 import TweetContent from "@/components/tweet-content";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { notFound } from "next/navigation";
 import { unstable_cache as nextCache } from "next/cache";
+import Link from "next/link";
 
 const getTweet = async (id: number) => {
   const tweet = await db.tweet.findUnique({
@@ -94,25 +94,34 @@ const TweetDetail = async ({ params }: { params: { id: string } }) => {
   const responses = await getCachedResponse(tweetId);
 
   return (
-    <div className="max-w-screen-sm mx-auto my-12">
-      <div className="flex flex-col gap-3 py-8 px-6">
-        <div className="flex flex-col items-start gap-1 px-2 pb-2 border-b-2 border-b-neutral-100">
-          <span className="text-lg">{tweet?.user.username}</span>
-          <span className="text-xs text-neutral-400">{tweet?.user.email}</span>
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-3 pt-6 px-6">
+        <div className="bg-white shadow-md rounded-lg flex flex-col items-start gap-1 px-2 pb-2">
+          <Link
+            href={`/users/${tweet?.userId}`}
+            className="text-lg hover:text-green-600"
+          >
+            {tweet?.user.username}
+          </Link>
+          <span className="text-xs opacity-50">{tweet?.user.email}</span>
         </div>
-        <div className="text-2xl">{tweet?.tweet}</div>
-        <div className="flex justify-between items-end">
-          <LikeButton
-            isLiked={isLiked}
-            likeCount={likeCount}
-            tweetId={tweetId}
-          />
-          <span className="text-xs text-neutral-400">
-            {new Date(`${tweet?.created_at}`).toLocaleDateString() +
-              " " +
-              new Date(`${tweet?.created_at}`).toLocaleTimeString()}
-          </span>
+        <div className="h-0.5 bg-neutral-100" />
+        <div className="flex flex-col gap-3">
+          <div className="text-2xl">{tweet?.tweet}</div>
+          <div className="flex justify-between items-end">
+            <LikeButton
+              isLiked={isLiked}
+              likeCount={likeCount}
+              tweetId={tweetId}
+            />
+            <span className="text-xs text-black">
+              {new Date(`${tweet?.created_at}`).toLocaleDateString() +
+                " " +
+                new Date(`${tweet?.created_at}`).toLocaleTimeString()}
+            </span>
+          </div>
         </div>
+        <div className="h-0.5 bg-neutral-100" />
       </div>
       <div className="px-6">
         <TweetContent

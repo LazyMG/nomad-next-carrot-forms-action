@@ -49,10 +49,12 @@ const SearchContent = () => {
   );
 };
 
-export function Searchbar() {
+const Searchbar = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <SearchContent />
     </Suspense>
   );
-}
+};
+
+export default Searchbar;

@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { searchTweet } from "./actions";
 
 import Tweet from "@/components/tweet";
@@ -25,27 +25,29 @@ const Search = () => {
   }, [keyword]);
 
   return (
-    <div className="flex flex-col gap-5 py-8 px-6">
-      <div className="flex flex-col gap-1 font-semibold text-lg">
-        <span>{keyword} 검색 결과</span>
-      </div>
-      <div className="h-0.5 bg-neutral-100" />
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <div className="flex flex-col gap-4">
-          {tweets?.map((tweet) => (
-            <Tweet
-              key={tweet.id}
-              tweetDate={tweet.created_at}
-              tweet={tweet.tweet}
-              tweetId={tweet.id}
-              tweetUser={tweet.user.username}
-            />
-          ))}
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="flex flex-col gap-5 py-8 px-6">
+        <div className="flex flex-col gap-1 font-semibold text-lg">
+          <span>{keyword} 검색 결과</span>
         </div>
-      )}
-    </div>
+        <div className="h-0.5 bg-neutral-100" />
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <div className="flex flex-col gap-4">
+            {tweets?.map((tweet) => (
+              <Tweet
+                key={tweet.id}
+                tweetDate={tweet.created_at}
+                tweet={tweet.tweet}
+                tweetId={tweet.id}
+                tweetUser={tweet.user.username}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </Suspense>
   );
 };
 

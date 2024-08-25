@@ -6,17 +6,17 @@ import React from "react";
 import SearchForm from "./search-form";
 
 import { usePathname, useRouter } from "next/navigation";
-import { revalidatePath } from "next/cache";
 
 const NavHeader = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const isBack =
-    pathname.substring(1).split("/")[0] === "tweets" ||
-    pathname.substring(1).split("/")[0] === "users";
 
   const clickBackButton = () => {
-    router.back();
+    if (pathname === "/profile") {
+      router.push("/");
+    } else {
+      router.back();
+    }
   };
 
   return (
@@ -34,7 +34,7 @@ const NavHeader = () => {
             <ArrowLeftIcon className="size-6" />
           </span>
         )}
-        <div className="text-2xl font-semibold">Tweets!</div>
+        <div className="text-2xl font-semibold">Tweets</div>
         <Link href="/profile">
           <UserCircleIcon className="size-7 text-green-600" />
         </Link>

@@ -11,12 +11,17 @@ import {
   USERNAME_MIN_LENGTH,
 } from "@/lib/constant";
 import Link from "next/link";
+import { InformationCircleIcon } from "@heroicons/react/24/solid";
 
 const Login = () => {
   const [state, dispatch] = useFormState(login, null);
   return (
     <div className="flex flex-col gap-10 py-8 px-6">
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center relative">
+        <Link href="/info" className="absolute left-0 top-3 size-10">
+          <InformationCircleIcon className=" text-white hover:text-neutral-100" />
+        </Link>
+
         <span className="text-5xl font-semibold">Log in 🔥</span>
       </div>
       <form action={dispatch} className="flex flex-col gap-3">

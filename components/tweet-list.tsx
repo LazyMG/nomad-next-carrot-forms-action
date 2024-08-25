@@ -48,7 +48,7 @@ const TweetList = ({ tweets, setTweets }: TweetListProps) => {
           </div>
         )}
       </div>
-      {tweets?.length !== 0 && (
+      {tweets?.length > 5 && (
         <div className="absolute w-full top-0">
           <div className="flex justify-between items-center">
             <span onClick={prevPage} className="cursor-pointer">

@@ -34,3 +34,23 @@ export const uploadResponse = async (response: string, tweetId: number) => {
     };
   }
 };
+
+export const deleteResponse = async (
+  responseId: number,
+  sessionId: number,
+  tweetId: number
+) => {
+  const response = await db.response.findUnique({
+    where: {
+      id: responseId,
+    },
+  });
+  if (response && response.userId === sessionId) {
+    await db.response.delete({
+      where: {
+        id: responseId,
+      },
+    });
+    revalidateTag(`tweet-responses-${tweetId}`);
+  }
+};

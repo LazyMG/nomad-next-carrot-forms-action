@@ -3,39 +3,57 @@
 import React, { useOptimistic, useState } from "react";
 import { TweetResponse } from "@/lib/types";
 import { TEXTAREA_MAX_LENGTH } from "@/lib/constant";
-import { uploadResponse } from "./reponse-actions";
+import { deleteResponse, uploadResponse } from "./reponse-actions";
 import Link from "next/link";
+import { flushSync } from "react-dom";
+import { TrashIcon } from "@heroicons/react/24/solid";
 
 const TweetContent = ({
   initialResponses,
   tweetId,
   user,
+  sessionId,
 }: {
   initialResponses: TweetResponse[];
   tweetId: number;
   user: { username: string; id: number };
+  sessionId: number | undefined;
 }) => {
   const [response, setResponse] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [state, reducerFn] = useOptimistic(
     { initialResponses },
-    (prevState, payload) => ({
-      initialResponses: [
-        {
-          id: Date.now(),
-          payload: response,
-          created_at: new Date(),
-          updated_at: new Date(),
-          userId: user.id,
-          tweetId,
-          user: {
-            username: user.username,
-          },
-        },
-        ...prevState.initialResponses,
-      ],
-    })
+    (
+      prevState,
+      payload: { response: string; isUpload: boolean; responseId?: number }
+    ) => {
+      if (payload.isUpload) {
+        return {
+          initialResponses: [
+            {
+              id: Date.now(),
+              payload: payload.response,
+              created_at: new Date(),
+              updated_at: new Date(),
+              userId: user.id,
+              tweetId,
+              user: {
+                username: user.username,
+              },
+            },
+            ...prevState.initialResponses,
+          ],
+        };
+      } else {
+        return {
+          initialResponses: [
+            ...prevState.initialResponses.filter(
+              (item) => item.id !== payload.responseId
+            ),
+          ],
+        };
+      }
+    }
   );
 
   const changeResponse = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -45,18 +63,31 @@ const TweetContent = ({
   const formAction = async () => {
     if (response === "") {
       setError("Write down your response!");
+      return;
     }
     if (response.length > TEXTAREA_MAX_LENGTH) {
       setError("Too long!");
+      return;
     }
-    setIsLoading(true);
-    reducerFn(undefined);
-    setResponse("");
-    const result = await uploadResponse(response, tweetId);
-    if (result.result) {
-      setIsLoading(false);
+    const tempResponse = response;
+    flushSync(() => {
+      setResponse(""); // textarea를 비우는 상태 업데이트를 먼저 실행
+    });
+    reducerFn({ response: tempResponse, isUpload: true });
+    const result = await uploadResponse(tempResponse, tweetId);
+    if (result?.result) {
       setError("");
     }
+  };
+
+  const clickDeleteResponseButton = async (
+    responseId: number,
+    sessionId: number | undefined,
+    tweetId: number
+  ) => {
+    if (!sessionId) return;
+    reducerFn({ response: "", isUpload: false, responseId });
+    await deleteResponse(responseId, sessionId, tweetId);
   };
 
   return (
@@ -79,11 +110,8 @@ const TweetContent = ({
         {error !== "" && (
           <span className="text-red-500 font-medium">{error}</span>
         )}
-        <button
-          disabled={isLoading}
-          className="text-lg bg-gray-100 rounded-2xl h-12 shadow-md disabled:bg-green-700 disabled:text-neutral-100 disabled:cursor-not-allowed hover:bg-green-200"
-        >
-          {isLoading ? "Loading..." : "Upload"}
+        <button className="text-lg bg-gray-100 rounded-2xl h-12 shadow-md disabled:bg-green-700 disabled:text-neutral-100 disabled:cursor-not-allowed hover:bg-green-200">
+          Upload
         </button>
       </form>
       <div className="flex flex-col gap-2">
@@ -94,11 +122,23 @@ const TweetContent = ({
           >
             <div className="flex justify-between items-end">
               <span className="text-lg">{response.payload}</span>
-              <Link href={`/users/${response.userId}`}>
-                <span className="text-md hover:text-green-600">
-                  {response.user.username}
-                </span>
-              </Link>
+              <div className="flex gap-1 items-center">
+                <Link href={`/users/${response.userId}`}>
+                  <span className="text-md hover:text-green-600">
+                    {response.user.username}
+                  </span>
+                </Link>
+                {sessionId && response.userId === sessionId && (
+                  <div
+                    onClick={() =>
+                      clickDeleteResponseButton(response.id, sessionId, tweetId)
+                    }
+                    className="cursor-pointer rounded-full p-1 hover:bg-neutral-200"
+                  >
+                    <TrashIcon className="size-5 text-red-500" />
+                  </div>
+                )}
+              </div>
             </div>
             <span className="text-xs text-right">
               {new Date(`${response.created_at}`).toLocaleDateString() +

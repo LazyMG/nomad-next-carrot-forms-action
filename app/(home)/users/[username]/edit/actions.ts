@@ -162,11 +162,7 @@ export const editProfile = async (
     return result.error.flatten();
   } else {
     //현재 password가 달라졌는지
-    console.log("바꾸기 전", result.data.password, currentUser.password);
-    const ok = await bcrypt.compare(
-      result.data.password,
-      currentUser.password ?? "xxxx"
-    );
+    const ok = result.data.password === currentUser.password;
     let hashedPassword;
     if (ok) {
       //이전과 같음
@@ -175,7 +171,6 @@ export const editProfile = async (
       //달라졌음
       hashedPassword = await bcrypt.hash(result.data.password, 12);
     }
-    console.log("확인 후", hashedPassword);
 
     const user = await db.user.update({
       where: {

@@ -31,20 +31,26 @@ const SearchContent = () => {
       </div>
       <div className="h-0.5 bg-neutral-100" />
       {isLoading ? (
-        <div className="flex justify-center text-4xl font-semibold pt-32">
-          Catching what you want!
+        <div className="flex justify-center text-4xl font-semibold pt-32 w-full text-center">
+          Catching Tweets About {keyword}!
         </div>
       ) : (
         <div className="flex flex-col gap-4">
-          {tweets?.map((tweet) => (
-            <Tweet
-              key={tweet.id}
-              tweetDate={tweet.created_at}
-              tweet={tweet.tweet}
-              tweetId={tweet.id}
-              tweetUser={tweet.user.username}
-            />
-          ))}
+          {tweets?.length !== 0 ? (
+            tweets?.map((tweet) => (
+              <Tweet
+                key={tweet.id}
+                tweetDate={tweet.created_at}
+                tweet={tweet.tweet}
+                tweetId={tweet.id}
+                tweetUser={tweet.user.username}
+              />
+            ))
+          ) : (
+            <div className="flex justify-center text-4xl font-semibold pt-32 text-center">
+              No Tweet about {keyword}
+            </div>
+          )}
         </div>
       )}
     </div>

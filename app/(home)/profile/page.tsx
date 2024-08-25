@@ -2,7 +2,8 @@ import Tweet from "@/components/tweet";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
+import { logOut } from "./actions";
 
 async function getUser() {
   const session = await getSession();
@@ -31,12 +32,7 @@ async function getUser() {
 
 const Profile = async () => {
   const user = await getUser();
-  const logOut = async () => {
-    "use server";
-    const session = await getSession();
-    await session.destroy();
-    redirect("/");
-  };
+
   return (
     <div className="px-6 flex flex-col gap-5 py-8">
       <div className="flex flex-col gap-8">

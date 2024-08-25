@@ -136,6 +136,7 @@ const TweetDetail = async ({ params }: { params: { id: string } }) => {
           initialResponses={responses}
           tweetId={tweetId}
           user={tweet?.user!}
+          sessionId={session?.id}
         />
       </div>
     </div>

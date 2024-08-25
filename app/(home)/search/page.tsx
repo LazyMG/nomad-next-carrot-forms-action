@@ -32,7 +32,7 @@ const SearchContent = () => {
       <div className="h-0.5 bg-neutral-100" />
       {isLoading ? (
         <div className="flex justify-center text-4xl font-semibold pt-32 w-full text-center">
-          Catching Tweets About {keyword}!
+          Catching Tweets About {keyword}...
         </div>
       ) : (
         <div className="flex flex-col gap-4">
@@ -40,7 +40,7 @@ const SearchContent = () => {
             tweets?.map((tweet) => (
               <Tweet
                 key={tweet.id}
-                tweetDate={tweet.created_at}
+                tweetDate={tweet.created_at.toISOString()}
                 tweet={tweet.tweet}
                 tweetId={tweet.id}
                 tweetUser={tweet.user.username}

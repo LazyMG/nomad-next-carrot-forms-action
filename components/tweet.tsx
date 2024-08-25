@@ -5,7 +5,7 @@ interface TweetProp {
   tweetId: number;
   tweet: string;
   tweetUser: string;
-  tweetDate: Date;
+  tweetDate: string;
 }
 
 const Tweet = ({ tweet, tweetId, tweetUser, tweetDate }: TweetProp) => {
@@ -20,9 +20,9 @@ const Tweet = ({ tweet, tweetId, tweetUser, tweetDate }: TweetProp) => {
         </span>
         <div className="flex justify-between  text-neutral-500 mt-2">
           <span className="text-xs">
-            {tweetDate.toLocaleDateString() +
+            {new Date(tweetDate).toLocaleDateString() +
               " " +
-              tweetDate.toLocaleTimeString()}
+              new Date(tweetDate).toLocaleTimeString()}
           </span>
           <span className="text-sm">{tweetUser}</span>
         </div>

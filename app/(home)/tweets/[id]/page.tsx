@@ -6,6 +6,11 @@ import { notFound } from "next/navigation";
 import { unstable_cache as nextCache } from "next/cache";
 import Link from "next/link";
 import DeleteButton from "@/components/delete-button";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Tweet",
+};
 
 const getTweet = async (id: number) => {
   const tweet = await db.tweet.findUnique({

@@ -37,7 +37,7 @@ const TweetList = ({ tweets, setTweets }: TweetListProps) => {
               tweet={tweet.tweet}
               tweetId={tweet.id}
               tweetUser={tweet.user.username}
-              tweetDate={tweet.created_at}
+              tweetDate={tweet.created_at.toISOString()}
               key={tweet.id}
             />
           ))

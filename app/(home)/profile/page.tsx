@@ -4,6 +4,11 @@ import getSession from "@/lib/session";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { logOut } from "./actions";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Profile",
+};
 
 async function getUser() {
   const session = await getSession();
@@ -65,7 +70,7 @@ const Profile = async () => {
         {user.tweets.map((tweet) => (
           <Tweet
             key={tweet.id}
-            tweetDate={tweet.created_at}
+            tweetDate={tweet.created_at.toISOString()}
             tweet={tweet.tweet}
             tweetId={tweet.id}
             tweetUser={user.username}

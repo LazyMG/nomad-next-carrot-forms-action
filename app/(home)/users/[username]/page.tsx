@@ -1,7 +1,12 @@
 import Tweet from "@/components/tweet";
 import db from "@/lib/db";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "User",
+};
 
 async function getUserDetail(id: number) {
   const user = await db.user.findUnique({
@@ -45,7 +50,7 @@ const UserDetail = async ({ params }: { params: { username: string } }) => {
         {user?.tweets.map((tweet) => (
           <Tweet
             key={tweet.id}
-            tweetDate={tweet.created_at}
+            tweetDate={tweet.created_at.toISOString()}
             tweet={tweet.tweet}
             tweetId={tweet.id}
             tweetUser={user?.username}

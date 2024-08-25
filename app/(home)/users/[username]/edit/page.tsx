@@ -3,6 +3,11 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { notFound, redirect } from "next/navigation";
 import { unstable_cache as nextCache } from "next/cache";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Edit",
+};
 
 async function getUserData(id: number) {
   const user = await db.user.findUnique({
